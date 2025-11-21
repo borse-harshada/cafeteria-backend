@@ -3,16 +3,21 @@ const Order = require("../models/Order.js");
 // ▶ Place a new order
 exports.placeOrder = async (req, res) => {
   try {
-    const { customerName, phone, items } = req.body;
+    const { customerName, phone, table, items } = req.body;   // ⭐ table added
 
-    // ⭐ FIX 1: Calculate total (1 added line)
+    if (!table) {
+      return res.status(400).json({ success: false, message: "Table number is required" });
+    }
+
+    // Calculate total
     const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const order = new Order({
       name: customerName,
       phone,
+      table,          // ⭐ store table
       items,
-      total   // ⭐ FIX 2: Save total
+      total
     });
 
     await order.save();

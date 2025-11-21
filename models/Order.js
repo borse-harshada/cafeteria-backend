@@ -3,16 +3,20 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
     name: String,
     phone: String,
+    table: {               // ⭐ NEW FIELD
+        type: Number,
+        required: true
+    },
 
     items: [
         { 
-            name: String,       // FIXED (was itemName)
-            price: Number, 
+            name: String,
+            price: Number,
             quantity: Number 
         }
     ],
 
-    total: Number,              // FIXED (was totalAmount)
+    total: Number,
 
     createdAt: { type: Date, default: Date.now }
 });
